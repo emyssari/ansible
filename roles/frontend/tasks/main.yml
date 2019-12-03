@@ -1,0 +1,30 @@
+---
+
+- name: install haproxy
+  yum:
+    name: "haproxy"
+    state: latest
+
+- name: enable haproxy at boot
+  service:
+    name: "haproxy"
+    enabled: yes
+
+- name: create haproxy default web directory
+  file:
+    path: /etc/haproxy
+    state: directory
+
+- name: copy static index.html to haproxy webroot
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
+
+- name: restart haproxy
+  service:
+    name: "haproxy"
+    state: restarted
+
+
+  
